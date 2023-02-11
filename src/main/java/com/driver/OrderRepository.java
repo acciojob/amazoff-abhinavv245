@@ -9,10 +9,17 @@ import java.util.List;
 @Repository
 public class OrderRepository {
 
-    HashMap<String, Order> orderMap = new HashMap<>();
-    HashMap<String, DeliveryPartner> partnerMap = new HashMap<>();
-    HashMap<String, String> orderPartnerMap = new HashMap<>();
-    HashMap<String, List<String>> partnerOrderListMap = new HashMap<>();
+    HashMap<String, Order> orderMap;
+    HashMap<String, DeliveryPartner> partnerMap;
+    HashMap<String, String> orderPartnerMap;
+    HashMap<String, List<String>> partnerOrderListMap ;
+
+    public OrderRepository() {
+        this.orderMap = new HashMap<>();
+        this.partnerMap = new HashMap<>();
+        this.orderPartnerMap = new HashMap<>();
+        this.partnerOrderListMap = new HashMap<>();
+    }
 
     public void addOrder(Order order) {
         orderMap.put(order.getId(), order);
@@ -53,9 +60,7 @@ public class OrderRepository {
     }
 
     public List<String> getAllOrders() {
-        List<String> orderList = new ArrayList<>();
-        for (String orderId : orderMap.keySet()) orderList.add(orderId);
-        return orderList;
+        return new ArrayList<>(orderMap.keySet());
     }
 
     public Integer getCountOfUnassignedOrders() {
@@ -73,7 +78,6 @@ public class OrderRepository {
     }
 
     public String getLastDeliveryTimeByPartnerId(String partnerId) {
-        String lastTime = "";
         Integer maxTime=0;
             List<String> orderList = partnerOrderListMap.get(partnerId);
             for(String order:orderList){
@@ -81,7 +85,7 @@ public class OrderRepository {
             }
         Integer hours=maxTime/60;
             Integer minutes= maxTime-(hours*60);
-        return String.valueOf(hours)+":"+String.valueOf(minutes);
+        return hours +":"+ minutes;
     }
 
     public void deletePartnerById(String partnerId) {
@@ -99,7 +103,7 @@ public class OrderRepository {
         String partnerId=orderPartnerMap.get(orderId);
 
         //remove the order from assigned order for a partner
-        List<String> orderList=new ArrayList<>();
+        List<String> orderList;
         orderList=partnerOrderListMap.get(partnerId);
         orderList.remove(orderId);
         orderPartnerMap.remove(orderId);
