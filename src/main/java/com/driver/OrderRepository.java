@@ -85,6 +85,7 @@ public class OrderRepository {
             }
         Integer hours=maxTime/60;
             Integer minutes= maxTime-(hours*60);
+            if(hours<10) return "0"+hours+":"+minutes;
         return hours +":"+ minutes;
     }
 
