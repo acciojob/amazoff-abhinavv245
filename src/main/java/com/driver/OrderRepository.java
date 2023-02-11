@@ -84,9 +84,12 @@ public class OrderRepository {
                 if(maxTime<orderMap.get(order).getDeliveryTime()) maxTime=orderMap.get(order).getDeliveryTime();
             }
         Integer hours=maxTime/60;
+            String Shours=String.valueOf(hours);
             Integer minutes= maxTime-(hours*60);
-            if(hours<10) return "0"+hours+":"+minutes;
-        return hours +":"+ minutes;
+            String Sminutes=String.valueOf(minutes);
+            if(hours<10)  Shours= "0"+hours;
+            if(minutes<10) Sminutes="0"+minutes;
+        return Shours +":"+ Sminutes;
     }
 
     public void deletePartnerById(String partnerId) {
